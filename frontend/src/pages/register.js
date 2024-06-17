@@ -25,7 +25,11 @@ class Register extends React.Component {
     const { account, email, password, confirm_password, address, phone } = this.state;
     const { register } = this.context;
 
-    let errors = {};
+    let errors = {
+      accountOrEmail: "",
+      password: "",
+      general: ""
+    };
 
     // Account validation
     if (account.trim() === "") {
@@ -43,9 +47,17 @@ class Register extends React.Component {
 
     // Password validation
     if (password.trim() === "") {
-      errors.password = "Password không được để trống.";
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(password)) {
-      errors.password = "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái viết thường, chữ cái viết hoa, số và ký tự đặc biệt.";
+      errors.password = "Mật khẩu không được để trống.";
+    } else if (password.length < 8) {
+      errors.password = "Mật khẩu phải có ít nhất 8 ký tự.";
+    } else if (!/[a-z]/.test(password)) {
+      errors.password = "Mật khẩu phải chứa ít nhất một chữ cái viết thường.";
+    } else if (!/[A-Z]/.test(password)) {
+      errors.password = "Mật khẩu phải chứa ít nhất một chữ cái viết hoa.";
+    } else if (!/\d/.test(password)) {
+      errors.password = "Mật khẩu phải chứa ít nhất một chữ số.";
+    } else if (!password.match(/[!@#$%^&*(),.?":{}|<>]/)) {
+      errors.password = "Mật khẩu phải chứa ít nhất một ký tự đặc biệt.";
     }
 
     // Confirm Password validation
@@ -54,7 +66,7 @@ class Register extends React.Component {
     }
 
     // If there are validation errors, set them in the state and return
-    if (Object.keys(errors).length > 0) {
+    if (Object.values(errors).some(error => error !== "")) {
       this.setState({ errors });
       return;
     }
