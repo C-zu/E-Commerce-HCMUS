@@ -25,18 +25,18 @@ class Login extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { account, password } = this.state;
+    const { accountOrEmail, password } = this.state;
     const { login } = this.context;
-
+  
     let errors = {};
-    if (account.trim() === "" || password.trim() === "") {
+    if (accountOrEmail.trim() === "" || password.trim() === "") {
       errors = "Tài khoản hoặc mật khẩu không được bỏ trống";
       this.setState({ errors });
       return;
     }
   
     try {
-      const response = await login(account, password);
+      const response = await login(accountOrEmail, password);
       if (response) {
         this.setState({ errors: response });
       }
