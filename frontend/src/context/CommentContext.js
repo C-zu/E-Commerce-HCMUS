@@ -13,7 +13,7 @@ const CommentProvider = ({ children }) => {
       try {
         // const phoneResponse = await fetch('https://e-commerce-hcmus-server-qggz96m4u-c-zus-projects.vercel.app/phone/comments/');
         // const laptopResponse = await fetch('https://e-commerce-hcmus-server-qggz96m4u-c-zus-projects.vercel.app/laptop/comments/');
-        const productResponse = await fetch('http://localhost:8000/api/comments')
+        const productResponse = await fetch('https://m8mp78nj-8000.asse.devtunnels.ms/api/comments')
         if (productResponse.ok ) {
           const productcommentData = await productResponse.json();   
           setComments(productcommentData);
