@@ -9,7 +9,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: "",
+      accountOrEmail: "",
       password: "",
       show_password: false,
       errors: ""
@@ -48,7 +48,7 @@ class Login extends React.Component {
 
     onChangeAccount = (event) => {
       this.setState({
-        account: event.target.value
+        accountOrEmail: event.target.value
       })
     }
 
@@ -67,7 +67,7 @@ class Login extends React.Component {
 
 
     render () {
-      let {account, password, showPassword, errors} = this.state
+      let {accountOrEmail, password, showPassword, errors} = this.state
       const { isLoggedIn } = this.context;
       if (isLoggedIn) {
         return <Navigate to= {"/"} replace />
@@ -102,7 +102,7 @@ class Login extends React.Component {
                              focus:bg-white focus:border-purple-500" 
                              type="text"
                              onChange={(event) => this.onChangeAccount(event)}
-                             value={account}
+                             value={accountOrEmail}
                           placeholder="Tài khoản"/>
                       </div>
                       {/* <!--Password input--> */}
