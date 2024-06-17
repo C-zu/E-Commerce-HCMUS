@@ -48,8 +48,8 @@ class Login extends React.Component {
     // Password validation
     if (password.trim() === "") {
       errors.password = "Mật khẩu không được để trống.";
-    } else if (password.length < 6 || password.length > 10) {
-      errors.password = "Độ dài Mật khẩu phải từ 6 đến 10 ký tự.";
+    } else if (password.length < 8) {
+      errors.password = "Độ dài Mật khẩu phải từ 8 ký tự trở lên.";
     }
 
     // If there are validation errors, set them in the state and return
