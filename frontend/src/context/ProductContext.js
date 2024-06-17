@@ -12,7 +12,7 @@ const ProductProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const productResponse = await fetch('http://localhost:8000/api/products/')
+        const productResponse = await fetch('https://m8mp78nj-8000.asse.devtunnels.ms/api/products/')
         if (productResponse.ok) {
           const productdata = await productResponse.json();   
           setProducts(productdata);
@@ -29,7 +29,7 @@ const ProductProvider = ({ children }) => {
   // Function to delete a product by ID
   const deleteProduct = async (product_id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/products/${product_id}`);
+      await axios.delete(`https://m8mp78nj-8000.asse.devtunnels.ms/api/products/${product_id}`);
       setProducts(products.filter(product => product.product_id !== product_id));
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -39,7 +39,7 @@ const ProductProvider = ({ children }) => {
 
   const addProduct = async (newProduct) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/products`, newProduct);
+      const response = await axios.post(`https://m8mp78nj-8000.asse.devtunnels.ms/api/products`, newProduct);
       setProducts([...products, response.data]);
     } catch (error) {
       console.error('Error adding product:', error);
@@ -49,7 +49,7 @@ const ProductProvider = ({ children }) => {
 
   const updateProduct = async (product_id, updatedProduct) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/products/${product_id}`, updatedProduct);
+      const response = await axios.put(`https://m8mp78nj-8000.asse.devtunnels.ms/api/products/${product_id}`, updatedProduct);
       setProducts(products.map(product => (product.product_id === product_id ? response.data : product)));
     } catch (error) {
       console.error('Error updating product:', error);
