@@ -23,19 +23,52 @@ class Register extends React.Component {
     event.preventDefault();
     const { account, email, password, confirm_password, address, phone } = this.state;
     const { register } = this.context;
-    if (password !== confirm_password) {
-      this.setState({ error: "Mật khẩu không giống với nhập lại mật khẩu" });
-    } else {
-      try {
-        const response = await register(account, email, password, address, phone);
-        if (response) {
-          this.setState({ error: response });
-        }
-
-      } catch (error) {
-        console.error("An error occurred while registering:", error);
-        alert("An error occurred while registering");
+  
+    let errors = {};
+  
+    // Account validation
+    if (account.trim() === "") {
+      errors.account = "Username không được để trống.";
+    } else if (account.length < 3 || account.length > 30) {
+      errors.account = "Độ dài Username phải nằm trong khoảng 3 đến 30 ký tự.";
+    }
+  
+    // Email validation
+    if (email.trim() === "") {
+      errors.email = "Email không được để trống.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Email không hợp lệ.";
+    }
+  
+    // Password validation
+    if (password.trim() === "") {
+      errors.password = "Password không được để trống.";
+    } else if (password.length < 6 || password.length > 10) {
+      errors.password = "Độ dài Password phải nằm trong khoảng 6 đến 10 ký tự.";
+    }
+  
+    // Confirm Password validation
+    if (confirm_password !== password) {
+      errors.confirm_password = "Mật khẩu không giống với nhập lại mật khẩu.";
+    }
+  
+    // If there are validation errors, set them in the state and return
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors });
+      return;
+    }
+  
+    try {
+      const response = await register(account, email, password, address, phone);
+      if (response) {
+        this.setState({ errors: { general: response } });
+      } else {
+        // Registration successful, handle accordingly (e.g., redirect to login)
+        alert("Đăng ký thành công!");
       }
+    } catch (error) {
+      console.error("An error occurred while registering:", error);
+      this.setState({ errors: { general: "Có lỗi xảy ra khi đăng ký tài khoản" } });
     }
   }
 
