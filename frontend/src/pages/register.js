@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 
 class Register extends React.Component {
   static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +15,7 @@ class Register extends React.Component {
       confirm_password: "",
       address: "",
       phone: "",
-      error: "",
+      errors: {}, // Thêm trường lưu trữ các lỗi chi tiết
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -23,41 +24,41 @@ class Register extends React.Component {
     event.preventDefault();
     const { account, email, password, confirm_password, address, phone } = this.state;
     const { register } = this.context;
-  
+
     let errors = {};
-  
+
     // Account validation
     if (account.trim() === "") {
       errors.account = "Username không được để trống.";
     } else if (account.length < 3 || account.length > 30) {
       errors.account = "Độ dài Username phải nằm trong khoảng 3 đến 30 ký tự.";
     }
-  
+
     // Email validation
     if (email.trim() === "") {
       errors.email = "Email không được để trống.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.email = "Email không hợp lệ.";
     }
-  
+
     // Password validation
     if (password.trim() === "") {
       errors.password = "Password không được để trống.";
-    } else if (password.length < 6 || password.length > 10) {
-      errors.password = "Độ dài Password phải nằm trong khoảng 6 đến 10 ký tự.";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(password)) {
+      errors.password = "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái viết thường, chữ cái viết hoa, số và ký tự đặc biệt.";
     }
-  
+
     // Confirm Password validation
     if (confirm_password !== password) {
       errors.confirm_password = "Mật khẩu không giống với nhập lại mật khẩu.";
     }
-  
+
     // If there are validation errors, set them in the state and return
     if (Object.keys(errors).length > 0) {
       this.setState({ errors });
       return;
     }
-  
+
     try {
       const response = await register(account, email, password, address, phone);
       if (response) {
@@ -109,11 +110,13 @@ class Register extends React.Component {
   }
 
   render() {
-    const { account, password, email, confirm_password, address, phone, error } = this.state;
+    const { account, password, email, confirm_password, address, phone, errors } = this.state;
     const { isLoggedIn } = this.context;
+
     if (isLoggedIn) {
-      return <Navigate to="/" replace />
+      return <Navigate to="/" replace />;
     }
+
     return (
       <section className="min-h-screen flex items-center justify-center bg-blue-500">
         <div className="container h-5/6 px-6 py-12 bg-white rounded-lg shadow-lg">
@@ -123,9 +126,9 @@ class Register extends React.Component {
             </div>
             <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
               <form onSubmit={this.handleSubmit} className="w-full">
-                {error && (
+                {errors.general && (
                   <div className="bg-red-100 border border-red-400 text-red-500 px-4 py-3 mb-4 rounded-md">
-                    {error}
+                    {errors.general}
                   </div>
                 )}
                 <div className="mb-6 flex items-center">
@@ -133,7 +136,7 @@ class Register extends React.Component {
                     Tài khoản:
                   </label>
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className={`bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 ${errors.account && 'border-red-500'}`}
                     type="text"
                     id="account"
                     value={account}
@@ -141,13 +144,16 @@ class Register extends React.Component {
                     placeholder="Tài khoản"
                     required
                   />
+                  {errors.account && (
+                    <p className="text-red-500 text-xs italic mt-1">{errors.account}</p>
+                  )}
                 </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="email">
                     Email:
                   </label>
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className={`bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 ${errors.email && 'border-red-500'}`}
                     type="email"
                     id="email"
                     value={email}
@@ -155,6 +161,9 @@ class Register extends React.Component {
                     placeholder="Email"
                     required
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs italic mt-1">{errors.email}</p>
+                  )}
                 </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="address">
@@ -189,7 +198,7 @@ class Register extends React.Component {
                     Mật khẩu:
                   </label>
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className={`bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 ${errors.password && 'border-red-500'}`}
                     type="password"
                     id="password"
                     value={password}
@@ -197,13 +206,16 @@ class Register extends React.Component {
                     placeholder="Mật khẩu"
                     required
                   />
+                  {errors.password && (
+                    <p className="text-red-500 text-xs italic mt-1">{errors.password}</p>
+                  )}
                 </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="confirm_password">
                     Xác nhận mật khẩu:
                   </label>
                   <input
-                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className={`bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 ${errors.confirm_password && 'border-red-500'}`}
                     type="password"
                     id="confirm_password"
                     value={confirm_password}
@@ -211,6 +223,9 @@ class Register extends React.Component {
                     placeholder="Xác nhận mật khẩu"
                     required
                   />
+                  {errors.confirm_password && (
+                    <p className="text-red-500 text-xs italic mt-1">{errors.confirm_password}</p>
+                  )}
                 </div>
                 <div className="text-center lg:text-left">
                   <button
