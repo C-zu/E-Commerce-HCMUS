@@ -12,7 +12,7 @@ const OrderProvider = ({ children }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/orders/');
+        const response = await axios.get('https://m8mp78nj-8000.asse.devtunnels.ms/api/orders/');
         setOrders(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -25,7 +25,7 @@ const OrderProvider = ({ children }) => {
   // Add order
   const addOrder = async (newOrder) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/orders/', newOrder);
+      const response = await axios.post('https://m8mp78nj-8000.asse.devtunnels.ms/api/orders/', newOrder);
       setOrders([...orders, newOrder]);
     } catch (error) {
       console.error('Error adding order:', error);
@@ -38,7 +38,7 @@ const OrderProvider = ({ children }) => {
   // Update order
   const updateOrder = async (order_id, updatedData) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/orders/${order_id}`, updatedData);
+      const response = await axios.put(`https://m8mp78nj-8000.asse.devtunnels.ms/api/orders/${order_id}`, updatedData);
       setOrders(orders.map(order => (order.order_id === order_id ? updatedData : order)));
     } catch (error) {
       console.error('Error updating order:', error);
@@ -49,7 +49,7 @@ const OrderProvider = ({ children }) => {
   // Delete order
   const deleteOrder = async (order_id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/orders/${order_id}`);
+      await axios.delete(`https://m8mp78nj-8000.asse.devtunnels.ms/api/orders/${order_id}`);
       setOrders(orders.filter(order => order.order_id !== order_id));
     } catch (error) {
       console.error('Error deleting order:', error);
