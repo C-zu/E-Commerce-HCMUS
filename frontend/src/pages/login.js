@@ -29,8 +29,23 @@ class Login extends React.Component {
     const { login } = this.context;
   
     let errors = {};
-    if (accountOrEmail.trim() === "" || password.trim() === "") {
-      errors = "Tài khoản hoặc mật khẩu không được bỏ trống";
+  
+    // Username validation
+    if (accountOrEmail.trim() === "") {
+      errors.accountOrEmail = "Username không được để trống.";
+    } else if (accountOrEmail.length < 3 || accountOrEmail.length > 30) {
+      errors.accountOrEmail = "Độ dài Username phải nằm trong khoảng 3 đến 30 ký tự.";
+    }
+  
+    // Password validation
+    if (password.trim() === "") {
+      errors.password = "Password không được để trống.";
+    } else if (password.length < 6 || password.length > 10) {
+      errors.password = "Độ dài Password phải nằm trong khoảng 6 đến 10 ký tự.";
+    }
+  
+    // If there are validation errors, set them in the state and return
+    if (Object.keys(errors).length > 0) {
       this.setState({ errors });
       return;
     }
@@ -38,32 +53,13 @@ class Login extends React.Component {
     try {
       const response = await login(accountOrEmail, password);
       if (response) {
-        this.setState({ errors: response });
+        this.setState({ errors: { general: response } });
       }
     } catch (error) {
       console.error("Error during login:", error);
-      this.setState({ errors: "An error occurred" });
+      this.setState({ errors: { general: "Có lỗi xảy ra khi đăng nhập" } });
     }
   }
-
-    onChangeAccount = (event) => {
-      this.setState({
-        accountOrEmail: event.target.value
-      })
-    }
-
-    onChangePassword = (event) => {
-      this.setState({
-        password: event.target.value
-      })
-    }
-
-    togglePasswordVisibility = (event) => {
-      event.preventDefault();
-      this.setState(prevState => ({
-        showPassword: !prevState.showPassword
-      }));
-    }
 
 
     render () {
