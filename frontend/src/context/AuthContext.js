@@ -110,7 +110,7 @@ const AuthProvider = ({ children }) => {
         if (data === "existedaccount") {
           return "Tài khoản đã tồn tại";
         }
-        else if (data == "existedemail") {
+        else if (data === "existedemail") {
           return "Email này đã được đăng ký";
         } else if (data === "notexist") {
           alert("Đăng ký thành công")
