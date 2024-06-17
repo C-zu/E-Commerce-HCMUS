@@ -144,10 +144,10 @@ class Register extends React.Component {
                     placeholder="Tài khoản"
                     required
                   />
-                  {errors.account && (
+                </div>
+                {errors.account && (
                     <p className="text-red-500 text-xs italic mt-1">{errors.account}</p>
                   )}
-                </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="email">
                     Email:
@@ -161,10 +161,10 @@ class Register extends React.Component {
                     placeholder="Email"
                     required
                   />
-                  {errors.email && (
+                </div>
+                {errors.email && (
                     <p className="text-red-500 text-xs italic mt-1">{errors.email}</p>
                   )}
-                </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="address">
                     Địa chỉ:
@@ -206,10 +206,10 @@ class Register extends React.Component {
                     placeholder="Mật khẩu"
                     required
                   />
-                  {errors.password && (
+                </div>
+                {errors.password && (
                     <p className="text-red-500 text-xs italic mt-1">{errors.password}</p>
                   )}
-                </div>
                 <div className="mb-6 flex items-center">
                   <label className="block text-gray-500 font-bold mb-2 w-1/3" htmlFor="confirm_password">
                     Xác nhận mật khẩu:
@@ -223,10 +223,10 @@ class Register extends React.Component {
                     placeholder="Xác nhận mật khẩu"
                     required
                   />
-                  {errors.confirm_password && (
+                </div>
+                {errors.confirm_password && (
                     <p className="text-red-500 text-xs italic mt-1">{errors.confirm_password}</p>
                   )}
-                </div>
                 <div className="text-center lg:text-left">
                   <button
                     type="submit"
