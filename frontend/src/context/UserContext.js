@@ -12,7 +12,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users/');
+        const response = await axios.get('https://m8mp78nj-8000.asse.devtunnels.ms/api/users/');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -25,7 +25,7 @@ const UserProvider = ({ children }) => {
   // Add user
   const addUser = async (newUser) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/users/', newUser);
+      const response = await axios.post('https://m8mp78nj-8000.asse.devtunnels.ms/api/users/', newUser);
       setUsers([...users, response.data]);
     } catch (error) {
       console.error('Error adding user:', error);
@@ -37,7 +37,7 @@ const UserProvider = ({ children }) => {
   const updateUser = async (user_id, updatedData, isFormData = false) => {
     try {
       const config = isFormData ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};
-      const response = await axios.put(`http://localhost:8000/api/users/${user_id}`, updatedData, config);
+      const response = await axios.put(`https://m8mp78nj-8000.asse.devtunnels.ms/api/users/${user_id}`, updatedData, config);
       if (response.status === 200) {
         const updatedUser = response.data;
         setUsers(users.map(user => (user.user_id === user_id ? updatedUser : user)));
@@ -53,7 +53,7 @@ const UserProvider = ({ children }) => {
   // Delete user
   const deleteUser = async (user_id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/users/${user_id}`);
+      await axios.delete(`https://m8mp78nj-8000.asse.devtunnels.ms/api/users/${user_id}`);
       setUsers(users.filter(user => user.user_id !== user_id));
     } catch (error) {
       console.error('Error deleting user:', error);
