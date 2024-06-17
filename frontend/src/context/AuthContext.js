@@ -182,7 +182,7 @@ const AuthProvider = ({ children }) => {
 
   const change_email = async (account, editedEmail) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api//account/changeEmail", {
+      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/account/changeEmail", {
         account, editedEmail
       });
       if (response.status === 200) {
