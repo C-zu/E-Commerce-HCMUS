@@ -161,7 +161,7 @@ class Account extends Component {
                     <div className="mb-4 relative" 
                          onMouseEnter={this.handleAvatarMouseEnter}
                          onMouseLeave={this.handleAvatarMouseLeave}>
-                      <img src={`http://localhost:8000/api/avatar/${user.user_id}`} alt="Avatar" className={`w-20 h-20 rounded-full mb-4`} ref={this.avatarRef} />
+                      <img src={`https://m8mp78nj-8000.asse.devtunnels.ms/api/avatar/${user.user_id}`} alt="Avatar" className={`w-20 h-20 rounded-full mb-4`} ref={this.avatarRef} />
                       {isHoveringAvatar && (
                         <div className="absolute top-0 left-0" style={{ width: avatarWidth }} onClick={this.openModal}>
                           <div className="bg-black opacity-50 rounded-full flex items-center justify-center h-20">
