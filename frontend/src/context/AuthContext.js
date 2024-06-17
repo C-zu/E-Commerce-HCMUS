@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get('https://m8mp78nj-8000.asse.devtunnels.ms/api/account/', {
+      const response = await axios.get('http://localhost:8000/api/account/', {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -52,10 +52,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (account, password) => {
+  const login = async (accountOrEmail, password) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/login/", {
-        account,
+      const response = await axios.post("http://localhost:8000/api/login/", {
+        accountOrEmail,
         password,
       });
       if (response.status === 200) {
@@ -71,10 +71,10 @@ const AuthProvider = ({ children }) => {
       console.error("Error during login:", error);
       if (error.response && error.response.status === 401 && error.response.data === "Invalid credentials") {
         console.log("Unauthorized: Incorrect credentials");
-        return "Tài khoản hoặc mất khẩu không đúng";
+        return "Tài khoản hoặc mật khẩu không đúng";
       } else if (error.response && error.response.status === 404 && error.response.data === "User not found") {
         console.log("User not found");
-        return "Tài khoản hoặc mất khẩu không đúng";
+        return "Tài khoản hoặc mật khẩu không đúng";
       } else {
         console.error("Error during login:", error);
         // Handle other errors (e.g., network issues)
@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
       const role = 'customer'
       const user_id = parseInt(Date.now(), 12);
       console.log(user_id)
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/register/", {
+      const response = await axios.post("http://localhost:8000/api/register/", {
         user_id,  
         account,
         password,
@@ -107,8 +107,11 @@ const AuthProvider = ({ children }) => {
       });
       if (response.status === 200) {
         const data = response.data;
-        if (data === "exist") {
+        if (data === "existedaccount") {
           return "Tài khoản đã tồn tại";
+        }
+        else if (data == "existedemail") {
+          return "Email này đã được đăng ký";
         } else if (data === "notexist") {
           alert("Đăng ký thành công")
           window.location.replace("/login");
@@ -116,7 +119,8 @@ const AuthProvider = ({ children }) => {
         } else {
           return "Unexpected response from server";
         }
-      } else {
+      } 
+      else {
         console.log("Unexpected response status: " + response.status);
         return "Unexpected response from server";
       }
@@ -128,7 +132,7 @@ const AuthProvider = ({ children }) => {
 
   const reset_password = async (account, email) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/account/forgetPassword/", {
+      const response = await axios.post("http://localhost:8000/api/account/forgetPassword/", {
         account,
         email,
       });
@@ -154,7 +158,7 @@ const AuthProvider = ({ children }) => {
 
   const change_password = async (account, password, new_password, confirm_newpassword) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/account/changePassword", {
+      const response = await axios.post("http://localhost:8000/api/account/changePassword", {
         account, password, new_password, confirm_newpassword
       });
       if (response.status === 200) {
@@ -178,7 +182,7 @@ const AuthProvider = ({ children }) => {
 
   const change_email = async (account, editedEmail) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api//account/changeEmail", {
+      const response = await axios.post("http://localhost:8000/api//account/changeEmail", {
         account, editedEmail
       });
       if (response.status === 200) {
@@ -199,7 +203,7 @@ const AuthProvider = ({ children }) => {
 
   const change_phone = async (account, editedPhone) => {
     try {
-      const response = await axios.post("https://m8mp78nj-8000.asse.devtunnels.ms/api/account/changePhone", {
+      const response = await axios.post("http://localhost:8000/api/account/changePhone", {
         account, editedPhone
       });
       if (response.status === 200) {
